@@ -1,0 +1,47 @@
+name: Sync Upstream
+
+# Questo repo e' un fork: non ha sorgente proprio da riscrivere (i domini
+# sono fissi dentro i bundle in providers/), quindi l'auto-aggiornamento qui
+# significa prendere i nuovi commit dal vero upstream (SPECTRUM00-prog, non
+# KennethJYS: quest'ultimo e' tornato a una versione precedente, il fork
+# reale che questo repo segue e' l'altro). Gira ogni ora e a mano.
+#
+# Fast-forward-only: se main avesse commit locali che upstream non ha (non
+# dovrebbe succedere, questo repo resta un mirror), il merge fallisce invece
+# di creare conflitti o commit di merge indesiderati.
+
+on:
+  schedule:
+    - cron: "23 * * * *"   # ogni ora, al minuto 23
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sincronizza con l'upstream (fast-forward only)
+        run: |
+          git remote add upstream https://github.com/SPECTRUM00-prog/Nuvio-Providers-Latino.git
+          git fetch upstream main
+          AHEAD=$(git rev-list --count HEAD..upstream/main)
+          if [ "$AHEAD" = "0" ]; then
+            echo "Nessun aggiornamento da upstream."
+            exit 0
+          fi
+          echo "$AHEAD nuovi commit da upstream, sincronizzo..."
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git merge --ff-only upstream/main
+          git push origin main
