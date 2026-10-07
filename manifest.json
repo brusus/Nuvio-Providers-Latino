@@ -10,7 +10,7 @@
       "author": "SPECTRUM00-prog",
       "supportedTypes": ["movie", "tv"],
       "filename": "providers/cinecalidad.js",
-      "enabled": true,
+      "enabled": false,
       "contentLanguage": ["es"]
     },
     {
@@ -32,7 +32,7 @@
       "author": "SPECTRUM00-prog",
       "supportedTypes": ["movie", "tv"],
       "filename": "providers/lamovie.js",
-      "enabled": true,
+      "enabled": false,
       "contentLanguage": ["es"]
     },
     {
@@ -109,7 +109,7 @@
       "author": "SPECTRUM00-prog",
       "supportedTypes": ["movie", "tv"],
       "filename": "providers/animejara.js",
-      "enabled": true,
+      "enabled": false,
       "contentLanguage": ["es", "ja"]
     }
   ]
