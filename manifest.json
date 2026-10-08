@@ -21,7 +21,7 @@
       "author": "SPECTRUM00-prog",
       "supportedTypes": ["movie", "tv", "series"],
       "filename": "providers/pelisgo.js",
-      "enabled": true,
+      "enabled": false,
       "contentLanguage": ["es"]
     },
     {
